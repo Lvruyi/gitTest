@@ -1,0 +1,7 @@
+2021-08-26 14:38:00,640 - ERROR - test_login.py[43]:Traceback (most recent call last):
+  File "E:\pythonTest\waimaiProject\test_case\test_login.py", line 41, in test_login
+    assert res['msg'] == expData['msg']#断言：预期与实际相比较，一致返回真，不一致-假
+AssertionError: assert '输入的密码错误!' == '成功'
+  - 成功
+  + 输入的密码错误!
+
