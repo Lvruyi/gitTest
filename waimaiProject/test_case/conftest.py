@@ -23,8 +23,6 @@ from libs.food import Food
 
 import sys, os
 import pytest
-print('test')
-print((os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))))
 
 @pytest.fixture(scope="session",autouse=True)
 def start_running():
