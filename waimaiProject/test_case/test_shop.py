@@ -34,7 +34,7 @@ print()
     功能都可以实现，优化方案选择方案二！
 """
 import pytest,allure,os
-from tools.excelControl import get_excel_data
+from tools.excelControl import get_excel_data,get_excel_data2
 from configs.config import projectPath
 # @pytest.mark.usefixtures("xt_test1")#手动fixture
 # @pytest.mark.usefixtures("xt_test2")#手动fixture
@@ -43,12 +43,11 @@ from configs.config import projectPath
 @pytest.mark.Shop#mark 标签
 class TestShop:
     # 1-店铺列出的测试方法
-    @pytest.mark.parametrize('caseTitle,inBody,expData',
-                             get_excel_data('../data/testCaseFile_V1.5.xls', "我的商铺", "listshopping",
-                                            "标题", "请求参数", "响应预期结果"))
     # @pytest.mark.parametrize('caseTitle,inBody,expData',
-    #                          get_excel_data(projectPath+'/data/testCaseFile_V1.5.xls', "我的商铺", "listshopping",
+    #                          get_excel_data('../data/testCaseFile_V1.5.xls', "我的商铺", "listshopping",
     #                                         "标题", "请求参数", "响应预期结果"))
+    @pytest.mark.parametrize('caseTitle,inBody,expData',
+                             get_excel_data2('../data/testCaseFile_V1.5.xls', "我的商铺", "listshopping"))
     @allure.story("店铺列出接口")#接口级别
     @allure.title("{caseTitle}")#用例级别
     @pytest.mark.Shop_list  # mark 标签
@@ -62,16 +61,12 @@ class TestShop:
             assert res['error'] == expData['error']
 
     # 2-店铺更新的测试方法
+    # @pytest.mark.parametrize('caseTitle,inBody,expData',
+    #                          get_excel_data('../data/testCaseFile_V1.5.xls', "我的商铺", "updateshopping",
+    #                                         "标题", "请求参数", "响应预期结果"))
     @pytest.mark.parametrize('caseTitle,inBody,expData',
-                             get_excel_data('../data/testCaseFile_V1.5.xls', "我的商铺", "updateshopping",
-                                            "标题", "请求参数", "响应预期结果"))
-
-    #@pytest.mark.parametrize('caseTitle,inBody,expData',
-                             # get_excel_data(projectPath+'/data/testCaseFile_V1.5.xls', "我的商铺", "updateshopping",
-                             #                "标题", "请求参数", "响应预期结果"))
-
+                             get_excel_data2('../data/testCaseFile_V1.5.xls', "我的商铺", "updateshopping"))
     @allure.story("店铺更新接口")#接口级别
-
     @allure.title("{caseTitle}")#用例级别
     @pytest.mark.Shop_update # mark 标签
     def test_shop_update(self,caseTitle,inBody,expData,update_shop_init):
@@ -84,5 +79,5 @@ class TestShop:
 
 if __name__ == '__main__':
     #--clean-alluredir  清除数据！
-    pytest.main(['test_shop.py','-s','-m','Shop_update','--alluredir','../report/tmp','--clean-alluredir'])# -s 打印print信息
+    pytest.main(['test_shop.py','-s','-m','Shop_update','--alluredir','../report/tmp'])# -s 打印print信息
     os.system('allure serve ../report/tmp')

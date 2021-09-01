@@ -10,7 +10,7 @@ import os
 import pytest
 
 from libs.login import Login
-from tools.excelControl import get_excel_data
+from tools.excelControl import get_excel_data,get_excel_data2
 from tools.logBasic import logger
 
 log = logger()
@@ -22,10 +22,10 @@ import traceback
 class TestLogin:
     #写测试方法
     #数据驱动  ----[(1,2),(3,4)]
-    @pytest.mark.parametrize('caseTitle,inBody,expData',get_excel_data('../data/testCaseFile_V1.5.xls',"登录模块","Login",
-                          "标题","请求参数","响应预期结果"))
-    # @pytest.mark.parametrize('caseTitle,inBody,expData',get_excel_data(projectPath+'/data/testCaseFile_V1.5.xls',"登录模块","Login",
-    #                      "标题","请求参数","响应预期结果"))
+    # @pytest.mark.parametrize('caseTitle,inBody,expData',get_excel_data('../data/testCaseFile_V1.5.xls',"登录模块","Login",
+    #                       "标题","请求参数","响应预期结果"))
+    @pytest.mark.parametrize('caseTitle,inBody,expData',
+                             get_excel_data2('../data/testCaseFile_V1.5.xls', "登录模块", "Login"))
     #@pytest.mark.parametrize('caseTitle,inBody,expData',get_yaml_caseData(projectPath+'/data/data.yaml'))
     @allure.story("登录接口")#接口级别
     @allure.title("{caseTitle}")#用例级别
@@ -56,6 +56,7 @@ if __name__ == '__main__':
     #--clean-alluredir  清除数据！
     pytest.main(['test_login.py','-s','--alluredir','../report/tmp'])# -s 打印print信息
     os.system('allure serve ../report/tmp')
+    print("pass")
     """
     运行一个报告需要什么？需要报告的源数据
     原理：

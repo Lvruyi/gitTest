@@ -113,7 +113,7 @@ def get_excel_data(excelDir,sheetName,caseName,*colName,selectCase=["all"]):
 """
 def is_json(inStr):
     try:
-        json.loads(inStr)
+        json.loads(inStr) # json转字典
     except ValueError:
         return  False#不是json
     return  True#是json
@@ -136,10 +136,40 @@ def is_json(inStr):
     
 """
 
-
+# 重新实现get_excel_data2
+def get_excel_data2(excelDir,sheetName,caseName):
+    # 1- 打开/加载excel文件---
+    # formatting_info=True  保持excel样式
+    workBook = xlrd.open_workbook(filename=excelDir, formatting_info=True)
+    # 2- 获取需要操作的sheet页
+    workSheet = workBook.sheet_by_name(sheetName)
+    #workSheet.row_values(0)#--第0行数据 是一个列表，列表通过值取 下标 index
+    # 3-获取第一列用例编号
+    col_values_list = workSheet.col_values(0)
+    # 4-找到符合要求的用例,获取用例信息，每一条用元组格式保存(请求参数,预期响应)，所有用例保存到list表里
+    caseList = []
+    index = 0
+    for one in col_values_list:
+        if caseName in one:
+            uri = workSheet.cell(index, 5).value
+            indate = workSheet.cell(index, 9).value
+            req = workSheet.cell(index, 11).value
+            caseTitle = workSheet.cell(index, 4).value  #案例标题
+            if is_json(indate) and is_json(req):
+                caseList.append((caseTitle, json.loads(indate), json.loads(req)))
+            elif uri and is_json(req):
+                caseList.append((caseTitle, uri, json.loads(req)))
+        index += 1  # 第index行
+    return caseList #返回值格式是[(),(),()]
 
 if __name__ == '__main__':
-    res = get_excel_data('../data/testCaseFile_V1.5.xls',"登录模块","Login","用例编号",
-                         "请求参数")
-    for one in res:
-        print(one)
+    # res = get_excel_data('../data/testCaseFile_V1.5.xls',"登录模块","Login","用例编号",
+    #                      "请求参数")
+    # for one in res:
+    #     print(one)
+    # res = get_excel_data2('../data/testCaseFile_V1.5.xls', "食品管理", "Addfoodkind")
+    # print(res)
+
+    json.loads('{"restaurant_id": "3269"}')
+    json.loads('{"code": 20000, "data": "", "flag": "松勤教育", "msg": "成功", "success": false}')
+

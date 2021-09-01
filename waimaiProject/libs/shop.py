@@ -26,7 +26,7 @@ class Shop:
         return resp.json()#字典数据
 
 
-
+    # 图片上传接口
     def file_upload(self,fileName,fileType):#图片上传接口
         url = f"{HOST}/file"
         """
@@ -71,9 +71,10 @@ class Shop:
 
 
 
+
 if __name__ == '__main__':
     #1- 登录操作--获取token
-    token = Login().login({"username":"sq0777","password":"xintian"},getToken=True)
+    token = Login().login({"username":"th0310","password":"11446"},getToken=True)
     #2- 调用列出接口
     shopObject = Shop(token)
     res = shopObject.shop_list({"page":1,"limit":10})

@@ -62,6 +62,9 @@ def set_yaml_data(fileName,inData):
 
 if __name__ == '__main__':
     res = get_yaml_data('../configs/conf.yaml')
+    print(type(res))
     print(res)
-
+    # resList = get_yaml_caseData('../data/data.yaml')
+    # print(type(resList))
+    # print(resList)
 

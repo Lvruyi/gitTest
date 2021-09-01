@@ -5,7 +5,8 @@
 #@Email   : 1730588479@qq.com
 #@Software: PyCharm
 #Date:2021/5/30
-import pytest
+
+
 """
 @pytest.fixture(scope=)  
 scope作用域：
@@ -15,12 +16,16 @@ scope作用域：
     4- session 包级别 每一个包都执行这个fixture 紧跟的函数  一次
     
 autouse:是否自动运行！  bool类型
-
-
 """
 from libs.login import Login
 from libs.shop import Shop
-import os
+from libs.food import Food
+
+import sys, os
+import pytest
+print('test')
+print((os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))))
+
 @pytest.fixture(scope="session",autouse=True)
 def start_running():
     #开始 setup
@@ -78,11 +83,11 @@ def shop_init(login_init):#去使用前面定义的fixture函数名，就是使�
     shopObject = Shop(login_init)
     print("---我正在初始化店铺实例---")
 
-    yield  shopObject #teardown  数据清除操作
+    # yield   shopObject #teardown  数据清除操作
     # 数据清除操作
     print("---我结束店铺实例---")
 
-    #return shopObject#返回值--店铺实例
+    return shopObject#返回值--店铺实例
 
 #3--====店铺更新接口操作---获取店铺实例、id  图片信息---  前置条件
 @pytest.fixture(scope="function")#手动调用
@@ -92,3 +97,11 @@ def update_shop_init(shop_init):#去使用前面定义的fixture函数名，就�
     imageInfo = shop_init.file_upload("123.png","image/png")
     print("---我正在初始化update_shop_init---")
     return shop_init,shopID,imageInfo#返回值--获取店铺实例、id  图片信息
+
+#3--====食品管理初始化操作
+@pytest.fixture(scope='class')
+def food_init(login_init):
+    # 创建食品实例
+    foodObj = Food(login_init)
+    print("---我正在初始化食品实例---")
+    return foodObj
