@@ -17,11 +17,11 @@ scope作用域：
     
 autouse:是否自动运行！  bool类型
 """
-from libs.login import Login
 from libs.shop import Shop
 from libs.food import Food
+from libs.login import Login
 
-import sys, os
+import sys,os
 import pytest
 
 @pytest.fixture(scope="session",autouse=True)
@@ -68,13 +68,13 @@ pytest的fixture用法：作为环境初始化操作/数据清除
 
 """
 #1--====登录初始化操作---获取token---  前置条件
-@pytest.fixture(scope="class")#手动调用
+@pytest.fixture(scope="session")#手动调用
 def login_init():
     # 1- 登录操作--获取token
     token = Login().login({"username": "th0310", "password": "11446"}, getToken=True)
     return token#返回值
 
-#2--====店铺初始化操作---获取店铺实例---  前置条件
+# #2--====店铺初始化操作---获取店铺实例---  前置条件
 @pytest.fixture(scope="class")#手动调用
 def shop_init(login_init):#去使用前面定义的fixture函数名，就是使用他的返回值
     # 创建店铺实例

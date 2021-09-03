@@ -5,7 +5,7 @@
 from configs.config import HOST
 import requests
 from libs.login import Login
-from shop import Shop
+from libs.shop import Shop
 class Food:
     def __init__(self,inToken):
         self.header = {"Authorization":inToken}  #请求头参数

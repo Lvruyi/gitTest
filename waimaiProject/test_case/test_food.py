@@ -33,7 +33,7 @@ class TestFood:
     @allure.story('列出食品')
     @pytest.mark.parametrize('caseTitle, uri, expdate', get_excel_data2('../data/testCaseFile_V1.5.xls','食品管理','listfood'))
     @allure.title('{caseTitle}')
-    def test_get_category(self, caseTitle, uri, expdate, update_shop_init, food_init):
+    def test_get_category(self, caseTitle, uri, expdate,  food_init):
         # 1.调用列出食品信息接口
         resq = food_init.get_category(uri)
         # 2.断言
